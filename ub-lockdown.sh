@@ -19,19 +19,24 @@ make_backup_user(){
 }
 
 disable_cron(){
-    #crontab -l > cron_backup.txt
-    #echo "Cron backup stored at cron_backup.txt"
-    #crontab -r
     sudo /etc/init.d/crond stop
-
-}
-
-disable_scheduled_task(){
-    # im assuming this is a windows thing
 }
 
 setup_iptables(){
-    sudo iptables -A INPUT -i lo -j ACCEPT
-    sudo iptables -A OUTPUT -o lo -j ACCEPT
-    
+    sudo apt-get install iptables-persistent
+    #flush iptables to remove current rules
+    sudo iptables -F 
+    #allow current and related packets
+    sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+    #allow loopback connections
+    sudo iptables -I INPUT 1 -i lo -j ACCEPT
+    #allow input from port 22 and 80.  we can add other services to this
+    sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+    sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+    #drop anything that isnt this stuff
+    sudo iptables -A INPUT -j DROP
+}
+
+run_updates(){
+    sudo apt-get update && sudo apt-get upgrade
 }
