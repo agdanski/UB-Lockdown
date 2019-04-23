@@ -40,3 +40,15 @@ setup_iptables(){
 run_updates(){
     sudo apt-get update && sudo apt-get upgrade
 }
+
+echo "Changing root password"
+change_root_pass
+echo "making backup user"
+make_backup_user
+echo "disabling cron"
+disable_cron
+echo "Setting up iptables"
+setup_iptables
+echo "running updates"
+run_updates
+echo "done"
