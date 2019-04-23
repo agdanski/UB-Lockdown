@@ -1,8 +1,11 @@
 #!/bin/bash
 
 change_root_pass(){
-    password = $( pwgen 20 1 )
-    echo "$password" | passwd --stdin root
+    rm "report.txt" 2> /dev/null
+    sudo apt-get install pwgen
+    password=$( pwgen 20 1 )
+    echo "root:$password" | chpasswd
+    echo "The root password is $password." >> report.txt
     echo "The new password for root is $password."
 }
 
@@ -12,9 +15,10 @@ delete_logs(){
 
 make_backup_user(){
     useradd 'backup'
-    password = $( pwgen 20 1)
-    chpasswd 'backup' "$password"
+    password=$( pwgen 20 1)
+    echo "backup:$password" | chpasswd
     echo "A user has been created with the credentials: User: backup Password: $password" 
+    echo "Backup user password is: $password." >> report.txt
     usermod -aG sudo backup
 }
 
@@ -52,3 +56,4 @@ setup_iptables
 echo "running updates"
 run_updates
 echo "done"
+echo "some info stored in report.txt"
