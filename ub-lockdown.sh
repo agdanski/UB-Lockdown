@@ -19,7 +19,7 @@ make_backup_user(){
     echo "backup:$password" | chpasswd
     echo "A user has been created with the credentials: User: backup Password: $password" 
     echo "Backup user password is: $password." >> report.txt
-    usermod -aG sudo backup
+    sudo usermod -aG sudo backup
 }
 
 disable_cron(){
