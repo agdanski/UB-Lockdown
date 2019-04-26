@@ -37,6 +37,8 @@ setup_iptables(){
     #allow input from port 22 and 80.  we can add other services to this
     sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
     sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+    #not sure if i need this
+    sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
     #drop anything that isnt this stuff
     sudo iptables -A INPUT -j DROP
 }
