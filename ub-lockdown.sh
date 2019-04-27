@@ -26,6 +26,24 @@ disable_cron(){
     sudo /etc/init.d/crond stop
 }
 
+reinstall_packages(){
+    sudo apt-get remove coreutils
+    sudo apt-get remove net-tools
+    sudo apt-get remove lsof
+    sudo apt-get remove procps
+    sudo apt-get remove build-essential
+    sudo apt-get remove openssh-server
+    sudo apt-get autoremove
+    sudo apt-get install coreutils
+    sudo apt-get install net-tools
+    sudo apt-get install lsof
+    sudo apt-get install procps
+    sudo apt-get install build-essential
+    sudo apt-get install openssh-server
+}
+
+
+
 setup_iptables(){
     sudo apt-get install iptables-persistent
     #flush iptables to remove current rules
@@ -53,6 +71,8 @@ echo "making backup user"
 make_backup_user
 echo "disabling cron"
 disable_cron
+echo "reinstalling core packages"
+reinstall_packages
 echo "Setting up iptables"
 setup_iptables
 echo "running updates"
